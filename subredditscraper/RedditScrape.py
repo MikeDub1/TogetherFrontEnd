@@ -1,15 +1,36 @@
 import praw
 import nltk
-from nltk.corpus import stopwords
-from nltk.stem.snowball import SnowballStemmer
 import re
 import sys
 import warnings
 import pandas as pd
 from praw.models import MoreComments
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
 
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
+
+stop_words = set(stopwords.words('english'))
+stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten','may','also','across','among','beside','however','yet','within'])
+re_stop_words = re.compile(r"\b(" + "|".join(stop_words) + ")\\W", re.I)
+
+stemmer = SnowballStemmer("english")
+
+def removeStopWords(sentence):
+    global re_stop_words
+    return re_stop_words.sub(" ", sentence)
+
+def stemming(sentence):
+    stemSentence = ""
+    for word in sentence.split():
+        stem = stemmer.stem(word)
+        stemSentence += stem
+        stemSentence += " "
+    stemSentence = stemSentence.strip()
+    return stemSentence
 
 def cleanHtml(sentence):
     cleanr = re.compile('<.*?>')
@@ -38,6 +59,8 @@ def preprocess(text):
     text = cleanHtml(text)
     text = cleanPunc(text)
     text = keepAlpha(text)
+    text = removeStopWords(text)
+    text = stemming(text)
     return text
 
 
@@ -46,8 +69,9 @@ reddit = praw.Reddit(client_id = "HcHVAaJGVQzH-Q", client_secret = "tl6k-jE3EzLn
 sub_reddits = [reddit.subreddit("Cooking"), reddit.subreddit("cookingforbeginners"), reddit.subreddit("videogames"), reddit.subreddit("Games"),
  reddit.subreddit("books"), reddit.subreddit("travel"), reddit.subreddit("GYM")]
  
-posts = []
+
 for subs in sub_reddits:
+    posts = []
     for post in subs.hot(limit=10):
     
         submission = reddit.submission(id=post.id)
@@ -61,7 +85,4 @@ for subs in sub_reddits:
         
             if (len(top_level_comment.body) > 5):
                 data = preprocess(top_level_comment.body)
-                posts.append([ top_level_comment.id,  post.subreddit, data])
-        
-    posts = pd.DataFrame(posts,columns=['id', 'subreddit', 'body',])
-    posts.to_csv(str(subs) + ".csv", index = False)    
+                posts.append([ top_level_comment.id,  post.subreddit, data])    
