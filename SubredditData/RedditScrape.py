@@ -86,3 +86,7 @@ for subs in sub_reddits:
             if (len(top_level_comment.body) > 5):
                 data = preprocess(top_level_comment.body)
                 posts.append([ top_level_comment.id,  post.subreddit, data])    
+
+    posts = pd.DataFrame(posts,columns=['id', 'subreddit', 'body',])
+    posts.to_csv(str(subs) + ".csv", index = False)   
+
