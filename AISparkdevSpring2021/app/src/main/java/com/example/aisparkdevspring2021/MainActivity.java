@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Male");
+        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Female");
         femaleDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
