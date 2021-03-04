@@ -1,1 +1,2 @@
+*.{h5,csv, hdf5} filter=lfs diff=lfs merge=lfs -text
 *.{csv,h5,hdf5,ipynb} filter=lfs diff=lfs merge=lfs -text
