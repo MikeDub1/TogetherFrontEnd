@@ -187,5 +187,11 @@ public class MainActivity extends Activity {
         finish();
     }
 
-
+    //Go to Setting
+    public void goToSetting(View view) {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        intent.putExtra("userSex",userSex);
+        startActivity(intent);
+        return;
+    }
 }
