@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "81420940969",
+    "firebase_url": "https://aisparkdev-tinder-default-rtdb.firebaseio.com",
     "project_id": "aisparkdev-tinder",
     "storage_bucket": "aisparkdev-tinder.appspot.com"
   },
