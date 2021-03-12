@@ -262,8 +262,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                     }
                     if (map.get("phone") != null) {
-                        name = map.get("phone").toString();
-                        mNameField.setText(phone);
+                        phone = map.get("phone").toString();
+                        mPhoneField.setText(phone);
 
                     }
                     if (map.get("profileImageUrl") != null) {
