@@ -32,6 +32,9 @@ public class MainActivity extends Activity {
     private int i;
 
     private FirebaseAuth mAuth;
+    private String currentUId;
+
+    private DatabaseReference userDb;
 
     ListView listView;
     List<cards> rowItems;
@@ -41,7 +44,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userDb = FirebaseDatabase.getInstance().getReference().child("Users");
+
         mAuth = FirebaseAuth.getInstance();
+        currentUId = mAuth.getCurrentUser().getUid();
 
         checkUserSex();
 
@@ -65,11 +71,24 @@ public class MainActivity extends Activity {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
+                cards Obj = (cards) dataObject;
+                String userId = Obj.getUserID();
+
+                userDb.child(potentialMatchSex).child(userId).child("connections").child("nope").child(currentUId).setValue(true);
+
                 Toast.makeText(MainActivity.this, "Left!", Toast.LENGTH_SHORT).show();
+
+
             }
+
 
             @Override
             public void onRightCardExit(Object dataObject) {
+                cards Obj = (cards) dataObject;
+                String userId = Obj.getUserID();
+
+                userDb.child(potentialMatchSex).child(userId).child("connections").child("yep").child(currentUId).setValue(true);
+
                 Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_SHORT).show();
             }
 
@@ -158,7 +177,7 @@ public class MainActivity extends Activity {
         oppSexDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.exists()){
+                if(snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId)){
 
                     cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString());
                     rowItems.add(Item);
