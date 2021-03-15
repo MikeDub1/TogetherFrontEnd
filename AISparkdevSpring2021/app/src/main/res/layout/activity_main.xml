@@ -8,19 +8,23 @@
 
 
     <Button
-        android:layout_height="wrap_content"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
-        android:text="SignOut"
-        android:onClick="LogoutUser"/>
+        android:layout_height="wrap_content"
+        android:onClick="LogoutUser"
+        android:text="SignOut" />
 
+    <Button android:layout_height="wrap_content" android:layout_width="wrap_content" tools:ignore="MissingConstraints" android:text="Settings" android:onClick="goToSetting" app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
-        android:background="#ffeee9e2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffeee9e2"
         app:rotation_degrees="15.5"
-        tools:context=".MyActivity" />
+        tools:context=".MyActivity"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
