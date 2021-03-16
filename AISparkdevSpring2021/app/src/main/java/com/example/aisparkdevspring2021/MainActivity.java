@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists()){
 
-                    cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString());
+                    cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString(),snapshot.child("profileImageUrl").getValue().toString());
                     rowItems.add(Item);
                     arrayAdapter.notifyDataSetChanged();
                 }
