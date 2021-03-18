@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button next;
+    Button next, prev;
     TextView question, qNum;
     EditText answer;
 
@@ -32,6 +32,7 @@ Random rand;
         rand = new Random();
         answer = (EditText) findViewById(R.id.userIn);
         next = (Button) findViewById(R.id.next);
+        prev = (Button) findViewById(R.id.prev);
         question = (TextView) findViewById(R.id.Question);
         qNum = (TextView) findViewById(R.id.qNum);
 
@@ -42,11 +43,23 @@ Random rand;
             public void onClick(View v) {
                 if(currQuestion >= (numQuestions-1))
                     gameOver();
-                else
+                else {
                     questions.responses[currQuestion] = answer.getText().toString();
                     updateQuestion(++currQuestion);
+                }
             }
         });
+
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currQuestion != 0) {
+                    questions.responses[currQuestion] = answer.getText().toString();
+                    updateQuestion(--currQuestion);
+                }
+            }
+        });
+
     }
 
     private void updateQuestion(int num){
