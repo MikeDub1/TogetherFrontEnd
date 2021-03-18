@@ -24,6 +24,7 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends Activity {
 
@@ -177,11 +178,20 @@ public class MainActivity extends Activity {
         oppSexDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId)){
 
-                    cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString());
-                    rowItems.add(Item);
-                    arrayAdapter.notifyDataSetChanged();
+                if (snapshot.exists()) {
+                    String picture = "";
+                    if (snapshot.child("profileImageUrl").getValue() == null) {
+                        picture = "../../../res/mipmap/ic_launcher/ic_launcher.png";
+                    } else picture = snapshot.child("profileImageUrl").getValue().toString();
+                    cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString(), picture);
+
+                    if (snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId)) {
+
+
+                        rowItems.add(Item);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
                 }
             }
             @Override
