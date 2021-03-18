@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
                 String userId = Obj.getUserID();
 
                 userDb.child(userId).child("connections").child("yep").child(currentUId).setValue(true);
+               
                 isConnectionMatch(userId);
                 Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_SHORT).show();
             }
@@ -124,12 +125,13 @@ public class MainActivity extends Activity {
     private void isConnectionMatch(String userId) {
         DatabaseReference currentUserConnectionsDb = userDb.child(userSex).child(currentUId).child("connections").child("yep").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Toast.makeText(MainActivity.this, "new Connection", Toast.LENGTH_LONG).show();
-                    userDb.child(snapshot.getKey()).child("connections").child("matches").child(currentUId).setValue(true);
-                    userDb.child(currentUId).child("connections").child("matches").child(snapshot.getKey()).setValue(true);
+                    userDb.child(potentialMatchSex).child(snapshot.getKey()).child("connections").child("matches").child(currentUId).setValue(true);
+                    userDb.child(userSex).child(currentUId).child("connections").child("matches").child(snapshot.getKey()).setValue(true);
 
                 }
             }
@@ -140,6 +142,8 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+   
 
     private String userSex;
     private String potentialMatchSex;
