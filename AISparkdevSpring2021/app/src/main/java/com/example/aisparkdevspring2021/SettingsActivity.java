@@ -276,7 +276,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 Glide.with(getApplication()).load(profileImageUrl).into(mProfileImage);
                                 break;
                         }
-                        Glide.with(getApplication()).load(profileImageUrl).into(mProfileImage);// TODO need to install glide depdency
 
                     }
                 }
