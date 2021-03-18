@@ -6,58 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/answer1"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="649dp" />
-
-    <Button
-        android:id="@+id/answer2"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="600dp" />
-
-    <Button
-        android:id="@+id/answer3"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="551dp" />
-
-    <Button
-        android:id="@+id/answer4"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="502dp" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="396dp"
-        android:layout_height="18dp"
+        android:id="@+id/qNum"
+        android:layout_width="124dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginRight="176dp"
         android:text="TextView"
-        android:gravity="center"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Question"
+        android:layout_width="394dp"
+        android:layout_height="205dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/userIn"
         android:layout_width="396dp"
-        android:layout_height="453dp"
-        android:text="TextView"
-        android:gravity="center"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="34dp" />
+        android:layout_height="81dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="264dp"
+        android:hint="Response"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
