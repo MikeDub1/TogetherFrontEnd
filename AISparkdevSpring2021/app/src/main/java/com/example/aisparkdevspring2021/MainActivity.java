@@ -180,15 +180,18 @@ public class MainActivity extends Activity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 if (snapshot.exists()) {
-                    String picture = "";
+                   /* String picture = "";
                     if (snapshot.child("profileImageUrl").getValue() == null) {
                         picture = "../../../res/mipmap/ic_launcher/ic_launcher.png";
                     } else picture = snapshot.child("profileImageUrl").getValue().toString();
-                    cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString(), picture);
-
+                    */
                     if (snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId)) {
+                        String profileImageUrl = "default";
 
-
+                        if (!snapshot.child("profileImageUrl").getValue().equals("default")){
+                            profileImageUrl = snapshot.child("profileImageUrl").getValue().toString();
+                        }
+                        cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString(), profileImageUrl);
                         rowItems.add(Item);
                         arrayAdapter.notifyDataSetChanged();
                     }
