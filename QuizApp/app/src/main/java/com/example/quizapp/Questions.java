@@ -15,8 +15,16 @@ public class Questions {
     };
 
     public String responses[];
+    public String concatResponses = "";
 
-     public String getQuestion(int a)
+    public void concat(String[] x)
+    {
+        for(int i = 0; i < x.length; i++) {
+            concatResponses = concatResponses + x[i];
+        }
+    }
+
+    public String getQuestion(int a)
      {
         String question  = mQuestions[a];
         return question;
