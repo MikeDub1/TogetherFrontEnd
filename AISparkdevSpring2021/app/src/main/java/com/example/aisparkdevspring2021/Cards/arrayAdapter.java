@@ -1,4 +1,4 @@
-package com.example.aisparkdevspring2021;
+package com.example.aisparkdevspring2021.Cards;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.aisparkdevspring2021.R;
 
 import java.util.List;
 
