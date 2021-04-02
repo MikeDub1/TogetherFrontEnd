@@ -1,10 +1,20 @@
 
-package com.simcoder.tinder.Chat;
 
-import android.support.v7.app.AppCompatActivity;
+/**
+Missing MatchesViewHolders.java file:
+    Inside the file we implement the following lines:
+            Intent intent = new Intent(view.getContext(),ChatActivity.class);
+            Bundle b = new Bundle(); //Import Dependency 
+            b.putString("matchId",mMatchId.getText().toString());
+            intent.putExtras(b);
+            view.getContext().startActivity(intent)
+ */
+package com.example.aisparkdevspring2021.Chat;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.aisparkdevspring2021.Chat.ChatObject;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,10 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.simcoder.tinder.Matches.MatchesActivity;
-import com.simcoder.tinder.Matches.MatchesAdapter;
-import com.simcoder.tinder.Matches.MatchesObject;
-import com.simcoder.tinder.R;
+import com.example.aisparkdevspring2021.Matches.MatchesActivity;
+import com.example.aisparkdevspring2021.Matches.MatchesAdapter;
+import com.example.aisparkdevspring2021.Matches.MatchesObject;
+import com.example.aisparkdevspring2021.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

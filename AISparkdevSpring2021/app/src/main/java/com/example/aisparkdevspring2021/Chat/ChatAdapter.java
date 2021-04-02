@@ -1,15 +1,16 @@
-package com.simcoder.tinder.Chat;
+package com.example.aisparkdevspring2021.Chat;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.simcoder.tinder.R;
+import com.example.aisparkdevspring2021.R;
+//import com.simcoder.tinder.R;
 
 import java.util.List;
 
