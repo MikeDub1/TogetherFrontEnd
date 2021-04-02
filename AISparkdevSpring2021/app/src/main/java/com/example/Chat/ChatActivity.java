@@ -39,18 +39,27 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView.Adapter mChatAdapter;
     private RecyclerView.LayoutManager mChatLayoutManager;
 
+    private EditText mSendEditText;
+
+    private Button mSendButton;
     
 
     private String currentUserID;
+    private String matchId;
+    DatabaseReference mDatabaseUser,mDatabaseChat;
 
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        matchId = getIntent().getExtras().getString("matchId"); //Needs some other task to work
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+         mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches").child(matchId).child("ChatId");
+         mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("Chat");
+
+          getChatId();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(false);
@@ -60,9 +69,53 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mChatAdapter);
 
         
+        mSendEditText = findViewById(R.id.message);
+        mSendButton = findViewById(R.id.send);
 
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage();
+            }
+        });
         
     }
+     private void sendMessage() {
+        String sendMessageText = mSendEditText.getText().toString();
+
+        if(!sendMessageText.isEmpty()){
+            DatabaseReference newMessageDb = mDatabaseChat.push();
+
+            Map newMessage = new HashMap();
+            newMessage.put("createdByUser", currentUserID);
+            newMessage.put("text", sendMessageText);
+
+            newMessageDb.setValue(newMessage);
+        }
+        mSendEditText.setText(null);
+    }
+
+
+
+    private void getChatId(){
+        mDatabaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    chatId = dataSnapshot.getValue().toString();
+                    mDatabaseChat = mDatabaseChat.child(chatId);
+                    getChatMessages();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    
     private ArrayList<ChatObject> resultsChat = new ArrayList<ChatObject>();
     private List<ChatObject> getDataSetChat() {
         return resultsChat;
