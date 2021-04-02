@@ -1,4 +1,4 @@
-package com.simcoder.tinder.Chat;
+package com.example.aisparkdevspring2021.Chat;
 
 /**
  * Created by manel on 10/31/2017.
