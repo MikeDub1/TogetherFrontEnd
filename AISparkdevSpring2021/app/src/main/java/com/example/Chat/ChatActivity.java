@@ -1,12 +1,4 @@
-/**
-Missing MatchesViewHolders.java file:
-    Inside the file we implement the following lines:
-            Intent intent = new Intent(view.getContext(),ChatActivity.class);
-            Bundle b = new Bundle(); //Import Dependency 
-            b.putString("matchId",mMatchId.getText().toString());
-            intent.putExtras(b);
-            view.getContext().startActivity(intent)
- */
+
 package com.simcoder.tinder.Chat;
 
 import android.support.v7.app.AppCompatActivity;
