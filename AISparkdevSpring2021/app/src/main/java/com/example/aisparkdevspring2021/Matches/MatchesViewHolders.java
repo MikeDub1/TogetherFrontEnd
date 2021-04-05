@@ -1,7 +1,11 @@
 package com.example.aisparkdevspring2021.Matches;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.aisparkdevspring2021.Chat.ChatActivity;
 import com.example.aisparkdevspring2021.R;
 
 
@@ -22,11 +26,11 @@ public class MatchesViewHolders extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(view.getContext(), ChatActivity.class);
+        Intent intent = new Intent(v.getContext(), ChatActivity.class);
         Bundle a  = new Bundle();
-        a.pushString("matchId",mMatchId.getText().toString());
+        a.putString("matchId",mMatchId.getText().toString());
         intent.putExtras(a);
-        view.getContext().startActivity(intent);
+        v.getContext().startActivity(intent);
         
     }
 }
