@@ -133,8 +133,8 @@ public class MainActivity extends Activity {
                     
                      String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
                     //These two lines were different from the video, i do not know why they were changed previously. 
-                    usersDb.child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUId).child("ChatId").setValue(key);
-                    usersDb.child(currentUId).child("connections").child("matches").child(dataSnapshot.getKey()).child("ChatId").setValue(key);
+                    userDb.child(snapshot.getKey()).child("connections").child("matches").child(currentUId).child("ChatId").setValue(key);
+                    userDb.child(currentUId).child("connections").child("matches").child(snapshot.getKey()).child("ChatId").setValue(key);
 
                 }
             }
