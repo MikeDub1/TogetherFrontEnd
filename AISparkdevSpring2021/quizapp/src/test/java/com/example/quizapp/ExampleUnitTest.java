@@ -1,4 +1,4 @@
-package com.example.quizapp;
+package com.example.aisparkdevspring2021.quizapp;
 
 import org.junit.Test;
 
