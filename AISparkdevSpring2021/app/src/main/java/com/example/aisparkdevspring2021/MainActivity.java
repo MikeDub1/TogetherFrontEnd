@@ -130,8 +130,11 @@ public class MainActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Toast.makeText(MainActivity.this, "new Connection", Toast.LENGTH_LONG).show();
-                    userDb.child(potentialMatchSex).child(snapshot.getKey()).child("connections").child("matches").child(currentUId).setValue(true);
-                    userDb.child(userSex).child(currentUId).child("connections").child("matches").child(snapshot.getKey()).setValue(true);
+                    
+                     String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
+                    //These two lines were different from the video, i do not know why they were changed previously. 
+                    userDb.child(snapshot.getKey()).child("connections").child("matches").child(currentUId).child("ChatId").setValue(key);
+                    userDb.child(currentUId).child("connections").child("matches").child(snapshot.getKey()).child("ChatId").setValue(key);
 
                 }
             }

@@ -1,15 +1,16 @@
-package com.simcoder.tinder.Chat;
+package com.example.aisparkdevspring2021.Chat;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.simcoder.tinder.R;
+import com.example.aisparkdevspring2021.R;
+//import com.simcoder.tinder.R;
 
 import java.util.List;
 
@@ -36,7 +37,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolders>{
 
     @Override
     public void onBindViewHolder(ChatViewHolders holder, int position) {
-        
+        holder.mMessage.setText(chatList.get(position).getMessage());
+        if(chatList.get(position).getCurrentUser()){
+            holder.mMessage.setGravity(Gravity.END);
+            holder.mMessage.setTextColor(Color.parseColor("#404040"));
+            holder.mContainer.setBackgroundColor(Color.parseColor("#F4F4F4"));
+        }else{
+            holder.mMessage.setGravity(Gravity.START);
+            holder.mMessage.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.mContainer.setBackgroundColor(Color.parseColor("#2DB4C8"));
+        }
 
     }
 
