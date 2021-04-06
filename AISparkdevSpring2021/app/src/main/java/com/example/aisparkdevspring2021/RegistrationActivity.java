@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.example.quizapp.QuizActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
-                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this, QuizActivity.class);
                     startActivity(intent);
                     finish();
                     return;
