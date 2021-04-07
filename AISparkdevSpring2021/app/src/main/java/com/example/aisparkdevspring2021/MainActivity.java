@@ -145,37 +145,26 @@ public class MainActivity extends Activity {
     public void checkUserSex(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference usersDb = userDb.child(user.getUid());
-        usersDb.addChildEventListener(new ChildEventListener() {
+        usersDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.getKey().equals(user.getUid())){
-                    if(snapshot.exists()){
-                        if (snapshot.child("sex")!= null){
-                            userSex = snapshot.child("sex").getValue().toString();
-                            potentialMatchSex = "Female";
-                            switch (userSex) {
-                                case "Male":
-                                    potentialMatchSex = "Male";
-                                    break;
-                                case "Female":
-                                    potentialMatchSex = "Female";
-                                    break;
-                            }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    if (snapshot.child("sex").getValue() != null) {
+                        userSex = snapshot.child("sex").getValue().toString();
+                        switch (userSex)
+                        {
+                            case "Male":
+                                potentialMatchSex = "Female";
+                                break;
+                            case "Female":
+                                potentialMatchSex = "Male";
+                                break;
                         }
+                        getOppositeSexUsers();
                     }
-
-                    getOppositeSexUsers();
                 }
             }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -183,15 +172,13 @@ public class MainActivity extends Activity {
     }
 
     public void getOppositeSexUsers(){
-        DatabaseReference oppSexDb = FirebaseDatabase.getInstance().getReference().child("Users").child(potentialMatchSex);
-        oppSexDb.addChildEventListener(new ChildEventListener() {
+        userDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 if (snapshot.exists()) {
-                    if (snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId)) {
+                    if (snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId) && snapshot.child("sex").getValue().toString().equals(potentialMatchSex)) {
                         String profileImageUrl = "default";
-
                         if (!snapshot.child("profileImageUrl").getValue().equals("default")){
                             profileImageUrl = snapshot.child("profileImageUrl").getValue().toString();
                         }
@@ -226,7 +213,6 @@ public class MainActivity extends Activity {
     //Go to Setting
     public void goToSetting(View view) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        intent.putExtra("userSex",userSex);
         startActivity(intent);
         return;
     }
