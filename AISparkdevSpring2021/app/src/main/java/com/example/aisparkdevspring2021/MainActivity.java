@@ -49,6 +49,8 @@ public class MainActivity extends Activity {
         userDb = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mAuth = FirebaseAuth.getInstance();
+
+        //Fix this: currentUId is null when getting a new user.
         currentUId = mAuth.getCurrentUser().getUid();
 
         checkUserSex();
@@ -190,11 +192,7 @@ public class MainActivity extends Activity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 if (snapshot.exists()) {
-                   /* String picture = "";
-                    if (snapshot.child("profileImageUrl").getValue() == null) {
-                        picture = "../../../res/mipmap/ic_launcher/ic_launcher.png";
-                    } else picture = snapshot.child("profileImageUrl").getValue().toString();
-                    */
+
                     if (snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId) && snapshot.child("sex").getValue().toString().equals(potentialMatchSex)) {
                         String profileImageUrl = "default";
 
