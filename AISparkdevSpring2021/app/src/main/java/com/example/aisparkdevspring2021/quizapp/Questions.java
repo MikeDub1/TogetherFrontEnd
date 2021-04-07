@@ -38,4 +38,6 @@ public class Questions {
              responses[i] = "";
          }
     }
+
+    public String getConcatResponses() {return concatResponses;}
 }

@@ -3,6 +3,7 @@ package com.example.aisparkdevspring2021;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -69,16 +70,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 quizIntent.putExtra("email", email);
                 quizIntent.putExtra("password", password);
                 quizIntent.putExtra("name", name);
-                quizIntent.putExtra("selectID", selectID);
                 quizIntent.putExtra("button", radioButton.getText());
 
                 startActivity(quizIntent);
 
-                if(getIntent().getIntExtra("error", 0) == 0) {
-                    Intent main = new Intent(RegistrationActivity.this, MainActivity.class);
-                    finish();
-                    return;
-                }
+                finish();
+                return;
             }
         });
     }

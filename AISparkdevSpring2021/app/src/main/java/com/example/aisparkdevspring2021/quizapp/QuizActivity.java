@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aisparkdevspring2021.ChooseLoginRegistrationActivity;
+import com.example.aisparkdevspring2021.CreateBioActivity;
 import com.example.aisparkdevspring2021.R;
 import com.example.aisparkdevspring2021.MainActivity;
 import com.example.aisparkdevspring2021.RegistrationActivity;
@@ -37,10 +38,6 @@ public class QuizActivity extends AppCompatActivity {
     private int numQuestions = questions.mQuestions.length;
     Random rand;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +49,7 @@ public class QuizActivity extends AppCompatActivity {
         prev = (Button) findViewById(R.id.prev);
         question = (TextView) findViewById(R.id.Question);
         qNum = (TextView) findViewById(R.id.qNum);
+
 
         updateQuestion(currQuestion);
 
@@ -67,21 +65,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent intent;
-                if (user != null) {
-                    intent = new Intent(QuizActivity.this, MainActivity.class);
-                    //Put params for clusters and compatible personality types here!
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
-            }
-        };
+
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,62 +96,29 @@ public class QuizActivity extends AppCompatActivity {
         questions.concat(questions.responses);
 
         //HTTP request code
+        goToCreateBioActivity();
+    }
 
 
+    private void goToCreateBioActivity()
+    {
         Intent myIntent = getIntent();
 
         String email = myIntent.getStringExtra("email");
         String password = myIntent.getStringExtra("password");
         String name = myIntent.getStringExtra("name");
-        int selectID = myIntent.getIntExtra("selectID", 1);
-        String radioButtonText = myIntent.getStringExtra("button").toString();
+        String radioButtonText = myIntent.getStringExtra("button");
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(QuizActivity.this, new OnCompleteListener<AuthResult>() {
+        Intent createBio = new Intent(QuizActivity.this, CreateBioActivity.class);
 
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()) {
-                    Toast.makeText(QuizActivity.this, "An error has occured in the signUp process", Toast.LENGTH_SHORT).show();
-                    goToRegistrationActivity(1);
-                    return;
-                }else {
-                    String userId = mAuth.getCurrentUser().getUid();
-                    DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-                    Map userInfo = new HashMap<>();
-                    userInfo.put("name", name);
-                    userInfo.put("sex", radioButtonText);
-                    userInfo.put("profileImageUrl", "default");
-                    currentUserDb.updateChildren(userInfo);
-                    goToRegistrationActivity(0);
+        createBio.putExtra("email", email);
+        createBio.putExtra("password", password);
+        createBio.putExtra("name", name);
+        createBio.putExtra("button", radioButtonText);
+        createBio.putExtra("answers", questions.getConcatResponses());
 
-                }
-            }
-        });
-
-        Intent main = new Intent(QuizActivity.this, MainActivity.class);
-        startActivity(main);
+        startActivity(createBio);
         finish();
         return;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(firebaseAuthStateListener);
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mAuth.removeAuthStateListener(firebaseAuthStateListener);
-    }
-
-    private void goToRegistrationActivity(int error)
-    {
-        Intent returnToChoose = new Intent(QuizActivity.this, ChooseLoginRegistrationActivity.class);
-        returnToChoose.putExtra("error", error);
-        startActivity(returnToChoose);
-        finish();
     }
 }
