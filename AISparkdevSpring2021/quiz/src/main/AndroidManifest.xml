@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.aisparkdevspring2021">
+    package="com.example.aisparkdevspring2021.quizapp">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.AISparkdevSpring2021">
-        <activity android:name=".CreateBioActivity"></activity>
-        <activity android:name=".Matches.MatchesActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ChooseLoginRegistrationActivity">
+        android:supportsRtl="true">
+        <activity android:name=".QuizActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

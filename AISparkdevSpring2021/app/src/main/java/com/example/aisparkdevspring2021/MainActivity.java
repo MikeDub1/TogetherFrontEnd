@@ -49,6 +49,8 @@ public class MainActivity extends Activity {
         userDb = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mAuth = FirebaseAuth.getInstance();
+
+        //Fix this: currentUId is null when getting a new user.
         currentUId = mAuth.getCurrentUser().getUid();
 
         checkUserSex();

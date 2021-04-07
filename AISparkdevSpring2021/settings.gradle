@@ -1,2 +1,3 @@
+include ':quiz'
 include ':app'
 rootProject.name = "AISparkdevSpring2021"
