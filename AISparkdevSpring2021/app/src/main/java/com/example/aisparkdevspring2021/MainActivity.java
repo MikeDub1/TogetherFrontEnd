@@ -1,18 +1,19 @@
 package com.example.aisparkdevspring2021;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.aisparkdevspring2021.Cards.arrayAdapter;
+import com.example.aisparkdevspring2021.Cards.cards;
+import com.example.aisparkdevspring2021.Matches.MatchesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +30,7 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     private cards cards_data[];
-    private arrayAdapter arrayAdapter;
+    private com.example.aisparkdevspring2021.Cards.arrayAdapter arrayAdapter;
     private int i;
 
     private FirebaseAuth mAuth;
@@ -89,6 +90,7 @@ public class MainActivity extends Activity {
                 String userId = Obj.getUserId();
 
                 userDb.child(userId).child("connections").child("yep").child(currentUId).setValue(true);
+               
                 isConnectionMatch(userId);
                 Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_SHORT).show();
             }
@@ -123,6 +125,7 @@ public class MainActivity extends Activity {
     private void isConnectionMatch(String userId) {
         DatabaseReference currentUserConnectionsDb = userDb.child(currentUId).child("connections").child("yep").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -140,8 +143,11 @@ public class MainActivity extends Activity {
         });
     }
 
+   
+
     private String userSex;
     private String potentialMatchSex;
+
     public void checkUserSex(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference usersDb = userDb.child(user.getUid());
@@ -169,6 +175,8 @@ public class MainActivity extends Activity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+
     }
 
     public void getOppositeSexUsers(){
@@ -213,6 +221,12 @@ public class MainActivity extends Activity {
     //Go to Setting
     public void goToSetting(View view) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+        return;
+    }
+
+    public void goToMatches(View view) {
+        Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
         return;
     }

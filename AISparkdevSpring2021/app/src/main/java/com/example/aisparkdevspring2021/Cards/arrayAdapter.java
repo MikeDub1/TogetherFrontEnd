@@ -1,4 +1,4 @@
-package com.example.aisparkdevspring2021;
+package com.example.aisparkdevspring2021.Cards;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.aisparkdevspring2021.R;
 
 import java.util.List;
 
-public class arrayAdapter extends ArrayAdapter<cards>{
+public class  arrayAdapter extends ArrayAdapter<cards> {
 
     Context context;
 
@@ -32,14 +33,16 @@ public class arrayAdapter extends ArrayAdapter<cards>{
         name.setText(card_item.getName());
         switch(card_item.getProfileImageUrl()){
             case "default":
-                Glide.with(convertView.getContext()).load(R.mipmap.ic_launcher).into(image);
+                Glide.with(getContext()).load(R.mipmap.ic_launcher).into(image);
                 break;
             default:
-                Glide.with(convertView.getContext()).load(card_item.getProfileImageUrl()).into(image);
+                Glide.with(getContext()).load(card_item.getProfileImageUrl()).into(image);
                 break;
+
         }
 
 
+       // image.setImageResource(R.mipmap.ic_launcher);
         return convertView;
 
     }
