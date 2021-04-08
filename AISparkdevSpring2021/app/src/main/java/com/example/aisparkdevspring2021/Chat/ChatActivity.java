@@ -46,11 +46,9 @@ public class ChatActivity extends AppCompatActivity {
     private Button mSendButton;
     
 
-    private String currentUserID,chatId;
-    private String matchId;
-    DatabaseReference mDatabaseUser,mDatabaseChat;
+    private String currentUserID, chatId, matchId;
+    DatabaseReference mDatabaseUser, mDatabaseChat;
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +56,11 @@ public class ChatActivity extends AppCompatActivity {
         matchId = getIntent().getExtras().getString("matchId"); //Needs some other task to work
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-         mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches").child(matchId).child("ChatId");
-         mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("Chat");
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches").child(matchId).child("ChatId");
+        mDatabaseChat = FirebaseDatabase.getInstance().getReference().child("Chat");
 
-          getChatId();
+        getChatId();
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(false);
@@ -136,9 +135,11 @@ public class ChatActivity extends AppCompatActivity {
                         if(createdByUser.equals(currentUserID)){
                             currentUserBoolean = true;
                         }
+
                         ChatObject newMessage = new ChatObject(message, currentUserBoolean);
                         resultsChat.add(newMessage);
                         mChatAdapter.notifyDataSetChanged();
+
                     }
                 }
 
