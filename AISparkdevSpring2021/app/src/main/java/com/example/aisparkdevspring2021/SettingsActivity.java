@@ -265,7 +265,6 @@ public class SettingsActivity extends AppCompatActivity {
                         mPhoneField.setText(phone);
 
                     }
-
                     if (map.get("sex") != null) {
                         userSex = map.get("sex").toString();
                     }

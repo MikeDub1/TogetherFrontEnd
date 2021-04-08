@@ -19,12 +19,11 @@ public class  arrayAdapter extends ArrayAdapter<cards> {
 
     public arrayAdapter(Context context, int resourceId, List<cards> items){
         super(context, resourceId, items);
-
     }
     public View getView(int position, View convertView, ViewGroup parent){
         cards card_item = getItem(position);
 
-        if (convertView == null) {
+        if (convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
         }
 
@@ -45,5 +44,6 @@ public class  arrayAdapter extends ArrayAdapter<cards> {
 
        // image.setImageResource(R.mipmap.ic_launcher);
         return convertView;
+
     }
 }

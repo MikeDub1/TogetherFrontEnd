@@ -1,21 +1,21 @@
 package com.example.aisparkdevspring2021.Cards;
 
 public class cards {
-    private String userID;
+    private String userId;
     private String name;
     private String profileImageUrl;
 
     public cards (String userID, String name, String profileImageUrl){
-        this.userID = userID;
+        this.userId = userID;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
     }
-    public String getUserID(){
-        return userID;
+
+    public String getUserId(){
+        return userId;
     }
     public void setUserID(String userID){
-        this.userID = userID;
-
+        this.userId = userId;
     }
 
     public String getName(){
@@ -32,6 +32,6 @@ public class cards {
 
     public void setName(String name){
         this.name = name;
-
     }
+
 }

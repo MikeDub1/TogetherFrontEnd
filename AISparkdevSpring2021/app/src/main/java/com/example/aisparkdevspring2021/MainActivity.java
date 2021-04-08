@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
                 cards Obj = (cards) dataObject;
-                String userId = Obj.getUserID();
+                String userId = Obj.getUserId();
 
                 userDb.child(userId).child("connections").child("nope").child(currentUId).setValue(true);
 
@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
             @Override
             public void onRightCardExit(Object dataObject) {
                 cards Obj = (cards) dataObject;
-                String userId = Obj.getUserID();
+                String userId = Obj.getUserId();
 
                 userDb.child(userId).child("connections").child("yep").child(currentUId).setValue(true);
                
@@ -125,18 +125,15 @@ public class MainActivity extends Activity {
     }
 
     private void isConnectionMatch(String userId) {
-        DatabaseReference currentUserConnectionsDb = userDb.child(userSex).child(currentUId).child("connections").child("yep").child(userId);
+        DatabaseReference currentUserConnectionsDb = userDb.child(currentUId).child("connections").child("yep").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Toast.makeText(MainActivity.this, "new Connection", Toast.LENGTH_LONG).show();
-                    
-                     String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
-                    //These two lines were different from the video, i do not know why they were changed previously. 
-                    userDb.child(snapshot.getKey()).child("connections").child("matches").child(currentUId).child("ChatId").setValue(key);
-                    userDb.child(currentUId).child("connections").child("matches").child(snapshot.getKey()).child("ChatId").setValue(key);
+                    userDb.child(snapshot.getKey()).child("connections").child("matches").child(currentUId).setValue(true);
+                    userDb.child(currentUId).child("connections").child("matches").child(snapshot.getKey()).setValue(true);
 
                 }
             }
@@ -155,29 +152,27 @@ public class MainActivity extends Activity {
 
     public void checkUserSex(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference udb = userDb.child(user.getUid());
-        udb.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference usersDb = userDb.child(user.getUid());
+        usersDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                    if(snapshot.exists()) {
-                        if (snapshot.child("sex").getValue() != null) {
-                            userSex = snapshot.child("sex").getValue().toString();
-                            switch (userSex)
-                            {
-                                case "Male":
-                                    potentialMatchSex = "Female";
-                                    break;
-                                case "Female":
-                                    potentialMatchSex = "Male";
-                                    break;
-                            }
-                            getOppositeSexUsers();
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    if (snapshot.child("sex").getValue() != null) {
+                        userSex = snapshot.child("sex").getValue().toString();
+                        switch (userSex)
+                        {
+                            case "Male":
+                                potentialMatchSex = "Female";
+                                break;
+                            case "Female":
+                                potentialMatchSex = "Male";
+                                break;
                         }
+                        getOppositeSexUsers();
                     }
-
-
+                }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -192,10 +187,8 @@ public class MainActivity extends Activity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 if (snapshot.exists()) {
-
                     if (snapshot.exists() && !snapshot.child("connections").child("nope").hasChild(currentUId) && !snapshot.child("connections").child("yep").hasChild(currentUId) && snapshot.child("sex").getValue().toString().equals(potentialMatchSex)) {
                         String profileImageUrl = "default";
-
                         if (!snapshot.child("profileImageUrl").getValue().equals("default")){
                             profileImageUrl = snapshot.child("profileImageUrl").getValue().toString();
                         }
