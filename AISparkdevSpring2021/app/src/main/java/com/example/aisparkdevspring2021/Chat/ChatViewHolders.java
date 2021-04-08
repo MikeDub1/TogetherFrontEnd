@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.aisparkdevspring2021.R;
 
 
- class ChatViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class ChatViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener{
     public TextView mMessage;
     public LinearLayout mContainer;
     public ChatViewHolders(View itemView) {
