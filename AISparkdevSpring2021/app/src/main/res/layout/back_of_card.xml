@@ -24,32 +24,7 @@
             android:layout_gravity="center"
             android:layout_width="300dp"
             android:layout_height="350dp"
-            android:orientation="vertical"
-            android:id="@+id/card_front">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/image"
-                android:scaleType="centerCrop"
-                />
-            <TextView
-                android:id="@+id/name"
-                android:textSize="30sp"
-                android:paddingLeft="20sp"
-                android:textColor="@android:color/black"
-                android:gravity="bottom|left"
-                tools:text="hello"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_gravity="center"
-            android:layout_width="300dp"
-            android:layout_height="350dp"
-            android:orientation="vertical"
-            android:visibility="invisible"
-            android:id="@+id/card_back">
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -57,7 +32,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:id="@+id/image_back"
+                    android:id="@+id/image"
                     android:scaleType="centerCrop"
                     />
 
@@ -66,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/name_back"
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10sp"
