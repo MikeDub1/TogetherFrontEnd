@@ -3,15 +3,15 @@ package com.example.aisparkdevspring2021.quizapp;
 public class Questions {
 
     public String mQuestions[] = {
-            "Which is the first planet in the solar system?",
-            "Which is the second planet in the solar system?",
-            "Which is the third planet in the solar system?",
-            "Which is the fourth planet in the solar system?",
-            "Which is the fifth planet in the solar system?",
-            "Which is the sixth planet in the solar system?",
-            "Which is the seventh planet in the solar system?",
-            "Which is the eighth planet in the solar system?",
-            "Which is the ninth planet in the solar system?"
+            "What are your interests?",
+            "What do you do for work?",
+            "Do you consider yourself a shy person or out going person?",
+            "What is your star sign?",
+            "How do you normally spent your weekend?",
+            "What are your favorite places to hangout?",
+            "Are you physically active and if you do what kinds?",
+            "Do you like to play games and if you do what kinds?",
+            "What is the most recent place you visited?"
     };
 
     public String responses[];
