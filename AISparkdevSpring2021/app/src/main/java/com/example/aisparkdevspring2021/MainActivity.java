@@ -285,16 +285,5 @@ public class MainActivity extends Activity {
         nManager.notify(1, notification);
     }
 
-    public void sendOnChannel2(View v)
-    {
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_baseline_whatshot_24)
-                .setContentTitle("You got a meesage!")
-                .setContentText("From ....!")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
 
-        nManager.notify(2, notification);
-    }
 }
