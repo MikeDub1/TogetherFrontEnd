@@ -10,9 +10,15 @@ Missing MatchesViewHolders.java file:
             view.getContext().startActivity(intent)
  */
 package com.example.aisparkdevspring2021.Chat;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.aisparkdevspring2021.Chat.ChatObject;
+
+import android.app.Notification;
 import android.os.Bundle;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -36,16 +42,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.aisparkdevspring2021.BaseApp.CHANNEL_2_ID;
+
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mChatAdapter;
+    private ChatAdapter mChatAdapter;
     private RecyclerView.LayoutManager mChatLayoutManager;
 
     private EditText mSendEditText;
 
     private Button mSendButton;
-    
 
+    private NotificationManagerCompat nManager;
     private String currentUserID, chatId, matchId;
     DatabaseReference mDatabaseUser, mDatabaseChat;
 
@@ -68,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mChatLayoutManager);
         mChatAdapter = new ChatAdapter(getDataSetChat(), ChatActivity.this);
         mRecyclerView.setAdapter(mChatAdapter);
-
+        nManager = NotificationManagerCompat.from(this);
         
         mSendEditText = findViewById(R.id.message);
         mSendButton = findViewById(R.id.send);
@@ -79,6 +87,7 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+
         
     }
      private void sendMessage() {
@@ -140,6 +149,10 @@ public class ChatActivity extends AppCompatActivity {
                         resultsChat.add(newMessage);
                         mChatAdapter.notifyDataSetChanged();
 
+                      if(!mChatAdapter.getChatList().get(mChatAdapter.getChatList().size()-1).getCurrentUser())
+                      {
+                          sendOnChannel2(findViewById(android.R.id.content).getRootView());
+                      }
                     }
                 }
 
@@ -163,5 +176,18 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayList<ChatObject> resultsChat = new ArrayList<ChatObject>();
     private List<ChatObject> getDataSetChat() {
         return resultsChat;
+    }
+
+    public void sendOnChannel2(View v)
+    {
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_baseline_whatshot_24)
+                .setContentTitle("You got a meesage!")
+                .setContentText("From ....!" + V.)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        nManager.notify(2, notification);
     }
 }

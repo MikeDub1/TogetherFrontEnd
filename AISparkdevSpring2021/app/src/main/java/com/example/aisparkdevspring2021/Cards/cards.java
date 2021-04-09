@@ -4,12 +4,16 @@ public class cards {
     private String userId;
     private String name;
     private String profileImageUrl;
+    private String bio;
 
-    public cards (String userID, String name, String profileImageUrl){
+    public cards (String userID, String name, String profileImageUrl, String bio){
         this.userId = userID;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
+        this.bio = bio;
     }
+
+
 
     public String getUserId(){
         return userId;
@@ -34,4 +38,6 @@ public class cards {
         this.name = name;
     }
 
+    private void setBio(String bio){this.bio = bio;}
+    private String getBio(String bio){return bio;}
 }

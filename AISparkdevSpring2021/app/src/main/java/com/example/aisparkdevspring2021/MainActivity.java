@@ -1,15 +1,21 @@
 package com.example.aisparkdevspring2021;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aisparkdevspring2021.Cards.arrayAdapter;
 import com.example.aisparkdevspring2021.Cards.cards;
@@ -27,16 +33,20 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.aisparkdevspring2021.BaseApp.CHANNEL_1_ID;
+import static com.example.aisparkdevspring2021.BaseApp.CHANNEL_2_ID;
+
 public class MainActivity extends Activity {
 
     private cards cards_data[];
     private com.example.aisparkdevspring2021.Cards.arrayAdapter arrayAdapter;
     private int i;
-
+    private boolean backVisible;
     private FirebaseAuth mAuth;
     private String currentUId;
 
-    private DatabaseReference userDb;
+    private DatabaseReference userDb, matchDb;
+    private NotificationManagerCompat nManager;
 
     ListView listView;
     List<cards> rowItems;
@@ -44,23 +54,26 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
-
+        backVisible = false;
         userDb = FirebaseDatabase.getInstance().getReference().child("Users");
-
         mAuth = FirebaseAuth.getInstance();
-
-        //Fix this: currentUId is null when getting a new user.
         currentUId = mAuth.getCurrentUser().getUid();
+        nManager = NotificationManagerCompat.from(this);
 
         checkUserSex();
 
         rowItems = new ArrayList<cards>();
-
         arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         flingContainer.setAdapter(arrayAdapter);
+
+        matchDb = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUId).child("connections").child("matches");
+
+
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
@@ -99,13 +112,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                /*
-                // Ask for more data here
-                al.add("XML ".concat(String.valueOf(i)));
-                arrayAdapter.notifyDataSetChanged();
-                Log.d("LIST", "notified");
-                i++;
-                 */
+
             }
 
             @Override
@@ -118,7 +125,24 @@ public class MainActivity extends Activity {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
+
+                //FIXME: set view here!!!!
+                FrameLayout fm1 = (FrameLayout) findViewById(R.id.card_front);
+                FrameLayout fm2 = (FrameLayout) findViewById(R.id.card_back);
+
+                if(!backVisible)
+                {
+                    fm1.setVisibility(View.INVISIBLE);
+                    fm2.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    fm2.setVisibility(View.INVISIBLE);
+                    fm1.setVisibility(View.VISIBLE);
+                }
+
+                backVisible = !backVisible;
+
             }
         });
 
@@ -126,7 +150,7 @@ public class MainActivity extends Activity {
 
     private void isConnectionMatch(String userId) {
         DatabaseReference currentUserConnectionsDb = userDb.child(currentUId).child("connections").child("yep").child(userId);
-        currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+        currentUserConnectionsDb.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -137,6 +161,19 @@ public class MainActivity extends Activity {
 
                     userDb.child(snapshot.getKey()).child("connections").child("matches").child(currentUId).child("ChatId").setValue(key);
                     userDb.child(currentUId).child("connections").child("matches").child(snapshot.getKey()).child("ChatId").setValue(key);
+                    matchDb.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                sendOnChannel1(findViewById(android.R.id.content).getRootView());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
 
@@ -194,7 +231,7 @@ public class MainActivity extends Activity {
                         if (!snapshot.child("profileImageUrl").getValue().equals("default")){
                             profileImageUrl = snapshot.child("profileImageUrl").getValue().toString();
                         }
-                        cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString(), profileImageUrl);
+                        cards Item = new cards(snapshot.getKey(), snapshot.child("name").getValue().toString(), profileImageUrl, snapshot.child("bio").getValue().toString());
                         rowItems.add(Item);
                         arrayAdapter.notifyDataSetChanged();
                     }
@@ -234,4 +271,19 @@ public class MainActivity extends Activity {
         startActivity(intent);
         return;
     }
+
+    public void sendOnChannel1(View v)
+    {
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_baseline_attach_email_24)
+                .setContentTitle("You have matched with someone!")
+                .setContentText("Find out who!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .build();
+
+        nManager.notify(1, notification);
+    }
+
+
 }

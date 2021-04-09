@@ -2,10 +2,14 @@ package com.example.aisparkdevspring2021.Matches;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.aisparkdevspring2021.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,11 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.aisparkdevspring2021.BaseApp.CHANNEL_1_ID;
+
 public class MatchesActivity extends AppCompatActivity {
 private RecyclerView mRecyclerView;
 private RecyclerView.Adapter mMatchesAdapter;
 private  RecyclerView.LayoutManager mMatchesLayoutManager;
 private String currentUserID;
+private NotificationManagerCompat nManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,7 @@ private String currentUserID;
         mRecyclerView.setLayoutManager(mMatchesLayoutManager);
         mMatchesAdapter = new MatchesAdapter(getDataSetMatches(), MatchesActivity.this);
         mRecyclerView.setAdapter(mMatchesAdapter);
+        nManager = NotificationManagerCompat.from(this);
 
 
         getUserMatchId();
@@ -101,4 +109,16 @@ private String currentUserID;
         return resultMatches;
     }
 
+    public void sendOnChannel1(View v)
+    {
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_baseline_attach_email_24)
+                .setContentTitle("You have matched with someone!")
+                .setContentText("Find out who!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .build();
+
+        nManager.notify(1, notification);
+    }
 }

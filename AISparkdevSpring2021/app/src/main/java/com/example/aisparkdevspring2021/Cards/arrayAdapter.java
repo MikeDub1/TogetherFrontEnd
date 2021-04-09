@@ -28,15 +28,20 @@ public class  arrayAdapter extends ArrayAdapter<cards> {
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView nameBack = (TextView) convertView.findViewById(R.id.name_back);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
+        ImageView imageBack = (ImageView) convertView.findViewById(R.id.image_back);
+
 
         name.setText(card_item.getName());
         switch(card_item.getProfileImageUrl()){
             case "default":
                 Glide.with(getContext()).load(R.mipmap.ic_launcher).into(image);
+                Glide.with(getContext()).load(R.mipmap.ic_launcher).into(imageBack);
                 break;
             default:
                 Glide.with(getContext()).load(card_item.getProfileImageUrl()).into(image);
+                Glide.with(getContext()).load(card_item.getProfileImageUrl()).into(imageBack);
                 break;
 
         }
